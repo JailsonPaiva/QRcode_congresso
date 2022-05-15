@@ -24,6 +24,12 @@ body {
     box-shadow: 6px 2px 8px 0px #198754ad;
 }
 
+.t-header {
+    margin-left: 1.5rem;
+
+    color: #000;
+}
+
 /* MAIN */
 
 .form-ra {
