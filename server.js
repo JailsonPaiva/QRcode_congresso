@@ -45,15 +45,12 @@ const aluno = require('./models/aluno');
                         code: (`${NomeAluno} ${RaAluno} ${CursoAluno}`)
                     }
         
-                    // const code = qr.image(NewQrcode.code, {type: 'svg'})
-                    QRcode.toString(NewQrcode.code, {type: 'png', width: '250px'}, (err, data) => {
+
+                    QRcode.toDataURL(NewQrcode.code, (err, data) => {
                         const DataCode = data
-                        console.log(data)
+                        // console.log(DataCode)
                         res.render('verificado', {code: DataCode, aluno: Aluno})
                     })
-                    // res.type('svg')
-                    // code.pipe(res)
-                    // res.render('verificado', {aluno: Aluno})
 
                 } else {
                     res.send('Aluno não inscrito no congresso.')
@@ -62,17 +59,7 @@ const aluno = require('./models/aluno');
                 
             }).catch(err => {console.error(err)})
         }
-
-        // 
         
-        // const NewQrcode = {
-        //     code: req.body.nome + " " + req.body.ra
-        // }
-
-        // const code = qr.image(NewQrcode.code, { type: 'svg'})
-
-        // res.type('svg')
-        // code.pipe(res)
     })
 
 // QRCODE EXEMPLO 
