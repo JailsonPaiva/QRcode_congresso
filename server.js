@@ -3,6 +3,7 @@ const app = express();
 const path = require('path')
 const BodyParser = require('body-parser')
 const qr = require('qr-image');
+const QRcode = require('qrcode')
 const aluno = require('./models/aluno');
 
 
@@ -44,10 +45,16 @@ const aluno = require('./models/aluno');
                         code: (`${NomeAluno} ${RaAluno} ${CursoAluno}`)
                     }
         
-                    const code = qr.image(NewQrcode.code, {type: 'svg'})
-        
-                    res.type('svg')
-                    code.pipe(res)
+                    // const code = qr.image(NewQrcode.code, {type: 'svg'})
+                    QRcode.toString(NewQrcode.code, {type: 'png', width: '250px'}, (err, data) => {
+                        const DataCode = data
+                        console.log(data)
+                        res.render('verificado', {code: DataCode, aluno: Aluno})
+                    })
+                    // res.type('svg')
+                    // code.pipe(res)
+                    // res.render('verificado', {aluno: Aluno})
+
                 } else {
                     res.send('Aluno não inscrito no congresso.')
                 }
