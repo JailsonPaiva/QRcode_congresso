@@ -8,5 +8,8 @@
     "qr-image": "^3.2.0",
     "qrcode": "^1.5.0",
     "sequelize": "^6.19.0"
+  },
+  "scripts": {
+    "start": "node server"
   }
 }

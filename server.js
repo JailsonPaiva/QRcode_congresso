@@ -6,6 +6,7 @@ const qr = require('qr-image');
 const QRcode = require('qrcode')
 const aluno = require('./models/aluno');
 
+const port = process.env.PORT || 3000;
 
 // TEMPLATE ENGINE
     app.set('view engine', 'ejs')
@@ -73,4 +74,4 @@ const aluno = require('./models/aluno');
 
 
 // PORT SERVER 
-    app.listen(8080, () => {console.log('Server running.')})
+    app.listen(port)
