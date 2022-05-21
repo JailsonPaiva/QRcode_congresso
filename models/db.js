@@ -1,5 +1,5 @@
 if(process.env.NODE_ENV == "production") {
-	module.exports = {mongoURI: "mongodb+srv://congresso:<F>@congresso.x8iuw.mongodb.net/test"}
+	module.exports = {mongoURI: "mongodb+srv://congresso:Fasipe2022@congresso.x8iuw.mongodb.net/test"}
 } else {
 	module.exports = {mongoURI: "mongodb://localhost/congresso"}
 }       
