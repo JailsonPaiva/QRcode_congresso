@@ -5,6 +5,11 @@ const BodyParser = require('body-parser')
 const qr = require('qr-image');
 const QRcode = require('qrcode')
 const aluno = require('./models/aluno');
+const mongoose = require('mongoose')
+const Aluno = mongoose.model("alunom")
+require('./models/aluno')
+const db = require('./models/db')
+
 
 const port = process.env.PORT || 3000;
 
@@ -18,27 +23,31 @@ const port = process.env.PORT || 3000;
     app.use(BodyParser.urlencoded({extended: true}))
     app.use(BodyParser.json())
 
-// ROUTES
-    app.get('/', (req, res) => res.render('home'))
+// MONGODB
+    mongoose.Promise = global.Promise
+    mongoose.connect(db.mongoURI).then( () => {
+        console.log('MongoDB conectado...')
+    }).catch( (erro) => {
+        console.log(`O ocorreu um erro: ${erro}`)
+    })
 
-    app.post('/criado', (req, res) => {
+// ROUTES
+    app.get('/', (req, res) => {res.render('home')})
+
+    app.post('/ler', (req, res) => {
         const ra = req.body.ra
-        const nome = req.body.nome
+
 
         if(!ra) {
-            res.send('Preencha o campos')
+            res.render('Preencha os campos')
         } else {
-            aluno.findAll({
-                attributes: ['id', 'nome', 'ra', 'curso', 'inscrito'],
-                where: {ra: req.body.ra}
-            }).then((aluno) => {
-                const Aluno = aluno[0].dataValues
-
-                //  VERIFICAÇÃO SE O ALUNO É INSCRITO NO CONGRESSO
-                if(Aluno.inscrito === 'T') {
-                    const NomeAluno = Aluno.nome
-                    const RaAluno = Aluno.ra
-                    const CursoAluno = Aluno.curso
+            Aluno.findOne({_ra: ra}).then((aluno) => {
+                const alunos = aluno
+               //  VERIFICAÇÃO SE O ALUNO É INSCRITO NO CONGRESSO
+                if(aluno.inscrito === 'T') {
+                    const NomeAluno = alunos.nome
+                    const RaAluno = alunos.ra
+                    const CursoAluno = alunos.curso
 
                     // console.log(aluno[0].dataValues.nome)
 
@@ -50,18 +59,54 @@ const port = process.env.PORT || 3000;
                     QRcode.toDataURL(NewQrcode.code, (err, data) => {
                         const DataCode = data
                         // console.log(DataCode)
-                        res.render('verificado', {code: DataCode, aluno: Aluno})
+                        res.render('verificado', {code: DataCode, aluno: alunos})
                     })
-
-                } else {
-                    res.send('Aluno não inscrito no congresso.')
-                }
-                
-                
-            }).catch(err => {console.error(err)})
+             }
+            }).catch()
         }
-        
     })
+
+    // app.post('/criado', (req, res) => {
+    //     const ra = req.body.ra
+    //     const nome = req.body.nome
+
+    //     if(!ra) {
+    //         res.send('Preencha o campos')
+    //     } else {
+    //         aluno.findAll({
+    //             attributes: ['id', 'nome', 'ra', 'curso', 'inscrito'],
+    //             where: {ra: req.body.ra}
+    //         }).then((aluno) => {
+    //             const Aluno = aluno[0].dataValues
+
+    //             //  VERIFICAÇÃO SE O ALUNO É INSCRITO NO CONGRESSO
+    //             if(Aluno.inscrito === 'T') {
+    //                 const NomeAluno = Aluno.nome
+    //                 const RaAluno = Aluno.ra
+    //                 const CursoAluno = Aluno.curso
+
+    //                 // console.log(aluno[0].dataValues.nome)
+
+    //                 const NewQrcode = {
+    //                     code: (`${NomeAluno} ${RaAluno} ${CursoAluno}`)
+    //                 }
+        
+
+    //                 QRcode.toDataURL(NewQrcode.code, (err, data) => {
+    //                     const DataCode = data
+    //                     // console.log(DataCode)
+    //                     res.render('verificado', {code: DataCode, aluno: Aluno})
+    //                 })
+
+    //             } else {
+    //                 res.send('Aluno não inscrito no congresso.')
+    //             }
+                
+                
+    //         }).catch(err => {console.error(err)})
+    //     }
+        
+    // })
 
 // QRCODE EXEMPLO 
 // app.get('/qrcode', (req, res) => {
