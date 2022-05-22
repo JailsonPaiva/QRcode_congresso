@@ -44,9 +44,9 @@ const port = process.env.PORT || 3000;
             Aluno.findOne({ra: ra}).then((aluno) => {
                 // console.log(ra)
                 const alunos = aluno
-                console.log(aluno)
+                console.log(alunos.inscrito)
                //  VERIFICAÇÃO SE O ALUNO É INSCRITO NO CONGRESSO
-                if(alunos.inscrito === 'T') {
+                if(alunos.inscrito == 'T') {
                     const NomeAluno = alunos.nome
                     const RaAluno = alunos.ra
                     const CursoAluno = alunos.curso
