@@ -46,7 +46,7 @@ const port = process.env.PORT || 3000;
                 const alunos = aluno
                 console.log(aluno)
                //  VERIFICAÇÃO SE O ALUNO É INSCRITO NO CONGRESSO
-                if(aluno.inscrito === 'T') {
+                if(alunos.inscrito === 'T') {
                     const NomeAluno = alunos.nome
                     const RaAluno = alunos.ra
                     const CursoAluno = alunos.curso
