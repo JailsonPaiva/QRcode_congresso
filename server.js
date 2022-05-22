@@ -42,8 +42,8 @@ const port = process.env.PORT || 3000;
             res.render('Preencha os campos')
         } else {
             Aluno.findOne({ra: ra}).then((aluno) => {
-                console.log(ra)
-                // const alunos = aluno
+                // console.log(ra)
+                const alunos = aluno
                //  VERIFICAÇÃO SE O ALUNO É INSCRITO NO CONGRESSO
                 if(aluno.inscrito === 'T') {
                     const NomeAluno = alunos.nome
