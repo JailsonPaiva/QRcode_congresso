@@ -1,10 +1,10 @@
 if(process.env.NODE_ENV == "production") {
-	module.exports = {mongoURI: "mongodb+srv://cogresso:Fasipe2022@congresso.sy9ps.mongodb.net/test?retryWrites=true&w=majority"}
+	module.exports = {mongoURI: "mongodb+srv://congresso:Fasipe2022@congresso.x8iuw.mongodb.net/test"}
 } else {
 	module.exports = {mongoURI: "mongodb://localhost/congresso"}
 }       
 
-// mongodb+srv://cogresso:Fasipe2022@congresso.sy9ps.mongodb.net/test?retryWrites=true&w=majority
+// mongodb+srv://cogresso:Fasipe2022@congresso.sy9ps.mongodb.net/?retryWrites=true&w=majority
 
 // DATABASE MYSQL
 // const { Sequelize, DataTypes } = require('sequelize')
