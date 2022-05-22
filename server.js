@@ -44,6 +44,7 @@ const port = process.env.PORT || 3000;
             Aluno.findOne({ra: ra}).then((aluno) => {
                 // console.log(ra)
                 const alunos = aluno
+                console.log(aluno)
                //  VERIFICAÇÃO SE O ALUNO É INSCRITO NO CONGRESSO
                 if(aluno.inscrito === 'T') {
                     const NomeAluno = alunos.nome
@@ -60,9 +61,7 @@ const port = process.env.PORT || 3000;
                         res.render('verificado', {code: DataCode, aluno: alunos})
                         
                     })
-                } else {
-                    res.render('negado')
-                }
+                } 
             }).catch()
         } 
     })
