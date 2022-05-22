@@ -42,11 +42,10 @@ const port = process.env.PORT || 3000;
             res.render('Preencha os campos')
         } else {
             Aluno.findOne({ra: ra}).then((aluno) => {
-                // console.log(ra)
+                // console.log(aluno)
                 const alunos = aluno
-                console.log(alunos.inscrito)
                //  VERIFICAÇÃO SE O ALUNO É INSCRITO NO CONGRESSO
-                if(alunos.inscrito == 'T') {
+                if(alunos.inscrito == 'T' | alunos.inscrito == 't'| alunos.inscrito === 'T') {
                     const NomeAluno = alunos.nome
                     const RaAluno = alunos.ra
                     const CursoAluno = alunos.curso
@@ -61,7 +60,7 @@ const port = process.env.PORT || 3000;
                         res.render('verificado', {code: DataCode, aluno: alunos})
                         
                     })
-                } else {
+                } else if(alunos.inscrito == 'F') {
                     res.render('negado')
                 }
             }).catch()
