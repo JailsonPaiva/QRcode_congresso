@@ -42,7 +42,7 @@ const port = process.env.PORT || 3000;
             res.render('negado')
         } else {
             Aluno.findOne({ra: ra}).then((aluno) => {
-                console.log(ra)
+                console.log(aluno)
                 const alunos = aluno
                //  VERIFICAÇÃO SE O ALUNO É INSCRITO NO CONGRESSO
                 if(alunos.inscrito == 'T') {
