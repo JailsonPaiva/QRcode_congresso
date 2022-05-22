@@ -36,12 +36,13 @@ const port = process.env.PORT || 3000;
 
     app.post('/ler', (req, res) => {
         const ra = req.body.ra
-
+        console.log(ra)
 
         if(!ra) {
             res.render('Preencha os campos')
         } else {
-            Aluno.findOne({_ra: ra}).then((aluno) => {
+            Aluno.findOne({ra: ra}).then((aluno) => {
+                console.log(ra)
                 const alunos = aluno
                //  VERIFICAÇÃO SE O ALUNO É INSCRITO NO CONGRESSO
                 if(aluno.inscrito === 'T') {
@@ -49,21 +50,21 @@ const port = process.env.PORT || 3000;
                     const RaAluno = alunos.ra
                     const CursoAluno = alunos.curso
 
-                    // console.log(aluno[0].dataValues.nome)
+                    console.log(aluno)
 
                     const NewQrcode = {
                         code: (`${NomeAluno} ${RaAluno} ${CursoAluno}`)
                     }
-        
 
                     QRcode.toDataURL(NewQrcode.code, (err, data) => {
                         const DataCode = data
                         // console.log(DataCode)
                         res.render('verificado', {code: DataCode, aluno: alunos})
+                        
                     })
              }
             }).catch()
-        }
+        } 
     })
 
     // app.post('/criado', (req, res) => {
