@@ -61,7 +61,9 @@ const port = process.env.PORT || 3000;
                         res.render('verificado', {code: DataCode, aluno: alunos})
                         
                     })
-                } 
+                } else {
+                    res.render('negado')
+                }
             }).catch()
         } 
     })
