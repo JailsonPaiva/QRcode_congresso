@@ -38,14 +38,14 @@ const port = process.env.PORT || 3000;
         const ra = req.body.ra
         // console.log(ra)
 
-        if(!ra) {
-            res.render('Preencha os campos')
+        if(ra === null || ra === "" || ra === undefined || ra.length < 5) {
+            res.render('negado')
         } else {
             Aluno.findOne({ra: ra}).then((aluno) => {
-                // console.log(aluno)
+                console.log(ra)
                 const alunos = aluno
                //  VERIFICAÇÃO SE O ALUNO É INSCRITO NO CONGRESSO
-                if(alunos.inscrito == 'T' | alunos.inscrito == 't'| alunos.inscrito === 'T') {
+                if(alunos.inscrito == 'T') {
                     const NomeAluno = alunos.nome
                     const RaAluno = alunos.ra
                     const CursoAluno = alunos.curso
