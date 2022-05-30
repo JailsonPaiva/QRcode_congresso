@@ -1,35 +1,6 @@
-<form action="/ler"
-      method="POST"
-      class="form-ra d-flex 
-      align-items-center 
-      flex-column 
-      justify-content-around">
+<section class="d-grid gap-2 col-3 mx-auto">
 
-        <div class="mb-3 container-fluid container-form">
-          <label for="nome" class="form-label">Nome</label>
-          <input 
-          type="text" 
-          class="form-control" 
-          id="nome"
-          name="nome"
-          placeholder="Digite o seu nome"
-          required>
+    <a href="/gerador" class="btn btn-success btn-lg">Gerar QRCode</a>
+    <a href="/pergunta" class="btn btn-success btn-lg">Marcar Presença</a>
 
-        </div>
-
-        <div class="mb-3 container-fluid container-form">
-          <label for="ra" class="form-label">RA do aluno</label>
-          <input 
-          type="number" 
-          class="form-control" 
-          id="ra"
-          name="ra"
-          placeholder="Digite o seu RA"
-          required>
-
-        </div>
-        
-        <div class="d-grid gap-2 col-3 mx-auto">
-          <button class="btn btn-success btn-code" type="submit">Gerar QRcode</button>
-        </div>
-      </form>
+</section>
