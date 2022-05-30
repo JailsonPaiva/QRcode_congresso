@@ -1,6 +1,11 @@
-<section class="d-grid gap-2 col-3 mx-auto">
+<section class="d-flex align-items-center flex-column justify-content-between">
+    <script src="/js/form.js"></script>
 
-    <a href="/gerador" class="btn btn-success btn-lg">Gerar QRCode</a>
-    <a href="/pergunta" class="btn btn-success btn-lg">Marcar Presença</a>
+    <select class="form-select" aria-label="Congresso FASIPE">
+        <option selected>Selecione o congresso</option>
+        <option value="ciencias" id="ciencias">Área Ciências</option>
+        <option value="saude" id="saude">Área Saúde</option>
+    </select>
 
+    <a href="" id="registros" class="btn btn-success btn-listar mt-3" onclick="Qrcodes()">Listar QRCode</a>
 </section>

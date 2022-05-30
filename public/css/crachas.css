@@ -1,27 +1,67 @@
-.img-ds {
-    position: relative;
-    display: inline-block;
-}
-  
-.texto-ds {
-    text-align: center;
-    position: absolute;
-    top: 43%;
-    left: 10%;
-    right: 10%;
-    color: white;
-}
-.texto-ds2 {
-    text-align: center;
-    position: absolute;
-    top: 50%;
-    left: 10%;
-    right: 10%;
-    color: white;
+@import url('https://fonts.googleapis.com/css2?family=PT+Serif&family=Poppins:wght@400;500;600;800&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
 }
 
-.img-ds2 {
+.img-container {
+    width: 31.5rem;
+    height: 47.25rem;
+
+    /* border: 1px solid; */
+
+    position: relative;
+}
+
+.img-bg {
+    height: 100%;
+    width: 100%;
+
+    z-index: -1;
+}
+
+
+.texto-container {
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+
+    padding-bottom: 7rem;
+
+
+    /* z-index: 10; */
     position: absolute;
-    top: 55%;
-    left: 26%;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    /* border: 1px solid red; */
+}
+
+.texto-nome, .texto-curso {
+    font-size: 1.3rem;
+    font-family: "Poppins";
+    font-weight: 600;
+    text-align: center; 
+
+    /* color: #fff; */
+}
+
+/* .texto-nome {
+    font-size: 1.3rem;
+}
+
+.texto-curso {
+    font-size: 1.5rem;
+} */
+
+.img-qrcode {
+    width: 14rem;
+    height: 14rem;
 }

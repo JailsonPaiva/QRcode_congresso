@@ -10,22 +10,23 @@
 
     <!-- CSS gerador. -->
     <link rel="stylesheet" href="/css/index.css">
-    <title>[SYSTEM] - Gerador de QRCode</title>
+    <title>Gerador de QRCode</title>
     <link rel="shortcut icon" href="/img/fasipe.png" type="image/x-icon">
 </head>
 <body>
+    <%- include("header"); -%>
 
     <section class="d-grid gap-2 col-3 mx-auto">
         <div class="d-flex flex-column min-vh-100 justify-content-center align-items-center">
             <form action="/registros_ciencias" method="post" class="form-ra d-flex align-items-center flex-column justify-content-around">
                 <button type="submit" class="btn btn-success btn-lg">BD - Ciências</button>
             </form>
-            
             <form action="/registros_saude" method="post" class="form-ra d-flex align-items-center flex-column justify-content-around">
                 <button type="submit" class="btn btn-success btn-lg">BD - Saúde</button>
             </form>
         </div>
     </section>
 
+    <%- include("footer"); -%>
 </body>
 </html>

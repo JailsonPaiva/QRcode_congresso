@@ -19,6 +19,10 @@ app.get("/gerador", (requisicao, resposta) => {
     resposta.render("gerador");
 });
 
+app.get("/registrar", (requisicao, resposta) => {
+    resposta.render("FormRegistrar");
+})
+
 app.get("/alerta", (requisicao, resposta) => {
     resposta.render("mensagem");
 });
@@ -43,7 +47,7 @@ app.get("/saida_saude", (requisicao, resposta) => {
     resposta.render("saude_saida");
 });
 
-app.post("/registros_ciencias", (requisicao, resposta) => {
+app.get("/registros_ciencias", (requisicao, resposta) => {
     database.query("SELECT * FROM ciencias_sociais", (erro, resultado) => {
         if (erro) {
             resposta.render("erro");
@@ -53,7 +57,7 @@ app.post("/registros_ciencias", (requisicao, resposta) => {
     });
 });
 
-app.post("/registros_saude", (requisicao, resposta) => {
+app.get("/registros_saude", (requisicao, resposta) => {
     database.query("SELECT * FROM saude", (erro, resultado) => {
         if (erro) {
             resposta.render("erro");
@@ -69,6 +73,9 @@ app.get("/crachac/:ra", (requisicao, resposta) => {
             resposta.render("erro");
         } else {
             const aluno = resultado[0];
+            /* ------------- */
+            console.log(aluno);
+            /* ------------- */
             const nomeAluno = aluno.aluno;
             const cursoAluno = aluno.curso;
             const raAluno = aluno.ra;
@@ -76,7 +83,18 @@ app.get("/crachac/:ra", (requisicao, resposta) => {
                 code: (`${raAluno}`)
             }
 
-            qrcode.toDataURL(NewQRCode.code, (erro, dados) => {
+            var opts = {
+                errorCorrectionLevel: 'M',
+                type: 'image/jpeg',
+                quality: 0.5,
+                margin: .5,
+                color: {
+                    dark:"#000",
+                    light:"#fff"
+                }
+            }
+
+            qrcode.toDataURL(NewQRCode.code, opts, (erro, dados) => {
                 const dataCode = dados;
                 resposta.render("cracha_ciencia", {code: dataCode, aluno: aluno})
             });
@@ -90,6 +108,9 @@ app.get("/crachas/:ra", (requisicao, resposta) => {
             resposta.render("erro");
         } else {
             const aluno = resultado[0];
+            /* ------------- */
+            console.log(aluno);
+            /* ------------- */
             const nomeAluno = aluno.aluno;
             const cursoAluno = aluno.curso;
             const raAluno = aluno.ra;
@@ -97,7 +118,19 @@ app.get("/crachas/:ra", (requisicao, resposta) => {
                 code: (`${raAluno}`)
             }
 
-            qrcode.toDataURL(NewQRCode.code, (erro, dados) => {
+
+            var opts = {
+                errorCorrectionLevel: 'M',
+                type: 'image/jpeg',
+                quality: 0.5,
+                margin: .5,
+                color: {
+                    dark:"#000",
+                    light:"#fff"
+                }
+            }
+
+            qrcode.toDataURL(NewQRCode.code, opts, (erro, dados) => {
                 const dataCode = dados;
                 resposta.render("cracha_saude", {code: dataCode, aluno: aluno})
             });
@@ -136,7 +169,7 @@ app.get("/entrada_ciencia/:decodificacao", (requisicao, resposta) => {
                     }
                 });
             }
-            resposta.render("result_eciencia");
+            resposta.render("resultciencia");
         }
     });
     database.query("UPDATE presenca_ciencias SET dia = ?, entrada = ? WHERE ra = ?", [dia, horaMinuto, registro], (erro, resultado) => {
@@ -177,7 +210,7 @@ app.get("/entrada_saude/:decodificacao", (requisicao, resposta) => {
                     }
                 });
             }
-            resposta.render("result_esaude");
+            resposta.render("resultsaude");
         }
     });
     database.query("UPDATE presenca_saude SET dia = ?, entrada = ? WHERE ra = ?", [dia, horaMinuto, registro], (erro, resultado) => {
@@ -199,7 +232,7 @@ app.get("/saida_ciencia/:decodificacao", (requisicao, resposta) => {
         if (erro) {
             resposta.render("erro");
         } else {
-            resposta.render("result_sciencia");
+            resposta.render("resultciencia");
         }
     });
 });
@@ -216,7 +249,7 @@ app.get("/saida_saude/:decodificacao", (requisicao, resposta) => {
         if (erro) {
             resposta.render("erro");
         } else {
-            resposta.render("result_saidasaude");
+            resposta.render("resultsaude");
         }
     });
 });

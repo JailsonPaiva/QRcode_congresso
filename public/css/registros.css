@@ -1,0 +1,12 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.table-container {
+    width: 100%;
+    padding: 2rem 8rem 0;
+
+    /* border: 1px solid ; */
+}
