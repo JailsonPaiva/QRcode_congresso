@@ -11,66 +11,58 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
-app.get("/", (requisicao, resposta) => {
-    resposta.render("index");
+app.get("/", (req, res) => {
+    res.render("index");
 });
 
-app.get("/gerador", (requisicao, resposta) => {
-    resposta.render("gerador");
+app.get("/gerador", (req, res) => {
+    res.render("gerador");
 });
 
-app.get("/registrar", (requisicao, resposta) => {
-    resposta.render("FormRegistrar");
+app.get("/registrar", (req, res) => {
+    res.render("FormRegistrar");
 })
 
-app.get("/alerta", (requisicao, resposta) => {
-    resposta.render("mensagem");
+app.get("/entrada_ciencias", (req, res) => {
+    res.render("ciencias_entrada");
 });
 
-app.get("/pergunta", (requisicao, resposta) => {
-    resposta.render("pergunta");
+app.get("/saida_ciencias", (req, res) => {
+    res.render("ciencias_saida");
 });
 
-app.get("/entrada_ciencias", (requisicao, resposta) => {
-    resposta.render("ciencias_entrada");
+app.get("/entrada_saude", (req, res) => {
+    res.render("saude_entrada");
 });
 
-app.get("/saida_ciencias", (requisicao, resposta) => {
-    resposta.render("ciencias_saida");
+app.get("/saida_saude", (req, res) => {
+    res.render("saude_saida");
 });
 
-app.get("/entrada_saude", (requisicao, resposta) => {
-    resposta.render("saude_entrada");
-});
-
-app.get("/saida_saude", (requisicao, resposta) => {
-    resposta.render("saude_saida");
-});
-
-app.get("/registros_ciencias", (requisicao, resposta) => {
+app.get("/registros_ciencias", (req, res) => {
     database.query("SELECT * FROM ciencias_sociais", (erro, resultado) => {
         if (erro) {
-            resposta.render("erro");
+            res.render("erro");
         } else {
-            resposta.render("registros_ciencia", {registros: resultado});
+            res.render("registros_ciencia", {registros: resultado});
         }
     });
 });
 
-app.get("/registros_saude", (requisicao, resposta) => {
+app.get("/registros_saude", (req, res) => {
     database.query("SELECT * FROM saude", (erro, resultado) => {
         if (erro) {
-            resposta.render("erro");
+            res.render("erro");
         } else {
-            resposta.render("registros_saude", {registros: resultado});
+            res.render("registros_saude", {registros: resultado});
         }
     });
 });
 
-app.get("/crachac/:ra", (requisicao, resposta) => {
-    database.query("SELECT * FROM ciencias_sociais WHERE ra = ?", [requisicao.params.ra], (erro, resultado) => {
+app.get("/crachac/:ra", (req, res) => {
+    database.query("SELECT * FROM ciencias_sociais WHERE ra = ?", [req.params.ra], (erro, resultado) => {
         if (erro) {
-            resposta.render("erro");
+            res.render("erro");
         } else {
             const aluno = resultado[0];
             /* ------------- */
@@ -96,16 +88,16 @@ app.get("/crachac/:ra", (requisicao, resposta) => {
 
             qrcode.toDataURL(NewQRCode.code, opts, (erro, dados) => {
                 const dataCode = dados;
-                resposta.render("cracha_ciencia", {code: dataCode, aluno: aluno})
+                res.render("cracha_ciencia", {code: dataCode, aluno: aluno})
             });
         }
     });
 });
 
-app.get("/crachas/:ra", (requisicao, resposta) => {
-    database.query("SELECT * FROM saude WHERE ra = ?", [requisicao.params.ra], (erro, resultado) => {
+app.get("/crachas/:ra", (req, res) => {
+    database.query("SELECT * FROM saude WHERE ra = ?", [req.params.ra], (erro, resultado) => {
         if (erro) {
-            resposta.render("erro");
+            res.render("erro");
         } else {
             const aluno = resultado[0];
             /* ------------- */
@@ -132,14 +124,14 @@ app.get("/crachas/:ra", (requisicao, resposta) => {
 
             qrcode.toDataURL(NewQRCode.code, opts, (erro, dados) => {
                 const dataCode = dados;
-                resposta.render("cracha_saude", {code: dataCode, aluno: aluno})
+                res.render("cracha_saude", {code: dataCode, aluno: aluno})
             });
         }
     });
 });
 
-app.get("/entrada_ciencia/:decodificacao", (requisicao, resposta) => {
-    const registro = requisicao.params.decodificacao;
+app.get("/entrada_ciencia/:decodificacao", (req, res) => {
+    const registro = req.params.decodificacao;
     console.log(registro);
 
     const dataSistema = new Date();
@@ -152,35 +144,35 @@ app.get("/entrada_ciencia/:decodificacao", (requisicao, resposta) => {
     
     database.query("INSERT INTO presenca_ciencias (nome, curso, ra) (SELECT aluno, curso, ra FROM ciencias_sociais WHERE ra = ?)", [registro], (erro, resultado) => {
         if (erro) {
-            resposta.render("erro");
+            res.render("erro");
         } else {
             console.log(resultado);
             if (resultado.message == "&Records: 0  Duplicates: 0  Warnings: 0") {
                 database.query("INSERT INTO presenca_ciencias (nome, curso, ra) (SELECT aluno, curso, ra FROM saude WHERE ra = ?)", [registro], (erro, resultado) => {
                     if (erro) {
-                        resposta.render("erro");
+                        res.render("erro");
                     } else {
                         console.log(resultado);
                         database.query("UPDATE presenca_ciencias SET dia = ?, entrada = ? WHERE ra = ?", [dia, horaMinuto, registro], (erro, resultado) => {
                             if (erro) {
-                                resposta.render("erro");
+                                res.render("erro");
                             }
                         });
                     }
                 });
             }
-            resposta.render("resultciencia");
+            res.render("resultciencia");
         }
     });
     database.query("UPDATE presenca_ciencias SET dia = ?, entrada = ? WHERE ra = ?", [dia, horaMinuto, registro], (erro, resultado) => {
         if (erro) {
-            resposta.render("erro");
+            res.render("erro");
         }
     });
 });
 
-app.get("/entrada_saude/:decodificacao", (requisicao, resposta) => {
-    registro = requisicao.params.decodificacao;
+app.get("/entrada_saude/:decodificacao", (req, res) => {
+    registro = req.params.decodificacao;
     console.log(registro);
 
     dataSistema = new Date();
@@ -193,35 +185,35 @@ app.get("/entrada_saude/:decodificacao", (requisicao, resposta) => {
     
     database.query("INSERT INTO presenca_saude (nome, curso, ra) (SELECT aluno, curso, ra FROM saude WHERE ra = ?)", [registro], (erro, resultado) => {
         if (erro) {
-            resposta.render("erro");
+            res.render("erro");
         } else {
             console.log(resultado);
             if (resultado.message == "&Records: 0  Duplicates: 0  Warnings: 0") {
                 database.query("INSERT INTO presenca_saude (nome, curso, ra) (SELECT aluno, curso, ra FROM ciencias_sociais WHERE ra = ?)", [registro], (erro, resultado) => {
                     if (erro) {
-                        resposta.render("erro");
+                        res.render("erro");
                     } else {
                         console.log(resultado);
                         database.query("UPDATE presenca_saude SET dia = ?, entrada = ? WHERE ra = ?", [dia, horaMinuto, registro], (erro, resultado) => {
                             if (erro) {
-                                resposta.render("erro");
+                                res.render("erro");
                             }
                         });
                     }
                 });
             }
-            resposta.render("resultsaude");
+            res.render("resultsaude");
         }
     });
     database.query("UPDATE presenca_saude SET dia = ?, entrada = ? WHERE ra = ?", [dia, horaMinuto, registro], (erro, resultado) => {
         if (erro) {
-            resposta.render("erro");
+            res.render("erro");
         }
     });
 });
 
-app.get("/saida_ciencia/:decodificacao", (requisicao, resposta) => {
-    registro = requisicao.params.decodificacao;
+app.get("/saida_ciencia/:decodificacao", (req, res) => {
+    registro = req.params.decodificacao;
     console.log(registro);
     dataSistema = new Date();
     horaAtual = dataSistema.getHours().toString();
@@ -230,15 +222,15 @@ app.get("/saida_ciencia/:decodificacao", (requisicao, resposta) => {
 
     database.query("UPDATE presenca_ciencias SET saida = ? WHERE ra = ?", [horaMinuto, registro], (erro, resultado) => {
         if (erro) {
-            resposta.render("erro");
+            res.render("erro");
         } else {
-            resposta.render("resultciencia");
+            res.render("resultciencia");
         }
     });
 });
 
-app.get("/saida_saude/:decodificacao", (requisicao, resposta) => {
-    registro = requisicao.params.decodificacao;
+app.get("/saida_saude/:decodificacao", (req, res) => {
+    registro = req.params.decodificacao;
     console.log(registro);
     dataSistema = new Date();
     horaAtual = dataSistema.getHours().toString();
@@ -247,9 +239,9 @@ app.get("/saida_saude/:decodificacao", (requisicao, resposta) => {
 
     database.query("UPDATE presenca_saude SET saida = ? WHERE ra = ?", [horaMinuto, registro], (erro, resultado) => {
         if (erro) {
-            resposta.render("erro");
+            res.render("erro");
         } else {
-            resposta.render("resultsaude");
+            res.render("resultsaude");
         }
     });
 });
